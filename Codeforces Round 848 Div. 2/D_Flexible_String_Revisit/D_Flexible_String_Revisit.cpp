@@ -21,6 +21,7 @@ The expected number modulo 998 244 353
 
 using namespace std;
 
+#define ll long long
 #define mod 998244353
 #define N 1000005
 
@@ -92,3 +93,38 @@ struct ModInt
     }
 };
 typedef ModInt<998244353> mint;
+
+void solve() {
+    int n; cin >> n;
+    string a, b; cin >> a >> b;
+    
+    int k = 0;
+    for (int i = 0; i < a.size(); i++) {
+        if (a[i] != b[i]) k++;
+    }
+
+    vector<mint> dp(n+1);
+    dp[n] = mint(1);
+    for (int i = n-1; i > 0; i--) {
+        dp[i] = mint(n) / mint(i) + mint(n-i) / mint(i) * dp[i+1];
+    }
+
+    mint val = mint(0);
+    for (int i = 1; i <= k; i++) {
+        val += dp[i];
+    }
+
+    cout << val << "\n";
+}
+
+int main() {
+       
+    ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    
+    int t; cin >> t;
+    while (t--) {
+        solve();
+    }
+
+    return 0;
+}
