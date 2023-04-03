@@ -1,0 +1,44 @@
+Test 1 Passed
+
+Input 1: 
+6
+3 1
+abc
+abd
+3 0
+abc
+abd
+3 1
+xbb
+xcd
+4 1
+abcd
+axcb
+3 10
+abc
+abd
+10 3
+lkwhbahuqa
+qoiujoncjb
+
+
+Expected Output : 
+6
+3
+6
+6
+6
+11
+
+
+Obtained Output : 
+6
+3
+6
+6
+6
+11
+
+
+________________________________________________________
+
