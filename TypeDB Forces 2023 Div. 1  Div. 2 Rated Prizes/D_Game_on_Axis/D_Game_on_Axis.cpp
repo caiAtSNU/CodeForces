@@ -23,56 +23,50 @@ The number of distinct pairs (x, y) with which the game ends
 
 using namespace std;
 
+void dfs(int x, vector<int>& v, vector<int>& s, vector<vector<int>>& B) {
+    v[x] = s[x] = 1;
+    for (auto y : B[x]) {
+        if (v[y] == 0) {
+            dfs(y, v, s, B);
+            s[x] += s[y];
+        }
+    }
+}
+
 void solve() {
     int n; cin >> n;
-    
-    vector<int> a(n+1);
-    vector<vector<int>> adj_list(n+1);
-    vector<int> stack;
-    int x, y;
-    for (int i = 1; i < n+1; i++) {
-        cin >> a[i];
-        x = i;
-        y = i + a[i];
-        if (1 <= y && y <= n) {
-            adj_list[y].push_back(x);
-        }
-        else {
-            stack.push_back(i);
-        }
-    }
-
-    int S = 0;
-    vector<int> endgame(n+1);
-    while (stack.size() != 0) {
-        x = stack.back();
-        stack.pop_back();
-        if (endgame[x] == 0) endgame[x] = 1;
-        S += 1;
-        for (int y : adj_list[x]) {
-            if (endgame[y] != 0) {
-                endgame[y] = endgame[x] + 1;
-                stack.push_back(y);
-            }
-        }
-    }
-
-    int ans = 0;
-    vector<int> visited(n+1);
-    int cur = 1;
-    while (1 <= cur && cur <= n) {
-        if (visited[cur] == 1) break;
-
-        visited[cur] = 1;
-
-        ans += n+2;
-        if (endgame[cur] == 1) {
-            ans += S-1;
+    vector<int> A(n+1);
+    vector<vector<int>> B(n+1);
+    for (int i = 1; i <= n; i++) {
+        int a; cin >> a;
+        if (1 <= i + a && i + a <= n) {
+            A[i] = i + a;
+            B[i + a].push_back(i);
         } else {
-            ans += S;
+            A[i] = 0;
+            B[0].push_back(i);
         }
+    }
 
-        cur = cur + a[cur];
+    vector<int> v(n+1);
+    vector<int> s(n+1);
+    dfs(0, v, s, B);
+
+    long long ans = 0;
+    if (v[1] > 0) {
+        int cur = 1;
+        while (cur != 0) {
+            ans -= n - s[0] + 1 + s[cur];
+            cur = A[cur];
+        }
+        ans += n * (2 * n + 1);
+    } else {
+        int cur = 1;
+        while (v[cur] == 0) {
+            ans += n + s[0];
+            v[cur] += 1;
+            cur = A[cur];
+        }
     }
 
     cout << ans << "\n";

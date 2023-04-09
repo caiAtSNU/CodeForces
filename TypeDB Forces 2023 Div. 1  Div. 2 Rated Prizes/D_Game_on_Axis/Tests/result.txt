@@ -1,4 +1,4 @@
-Test 1 Time limit exceeded
+Test 1 Passed
 
 Input 1: 
 9
@@ -35,6 +35,15 @@ Expected Output :
 
 
 Obtained Output : 
+2
+8
+6
+7
+20
+17
+34
+30
+40
 
 
 ________________________________________________________
